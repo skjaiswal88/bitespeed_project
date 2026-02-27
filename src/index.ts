@@ -1,23 +1,36 @@
 import express from "express";
+import config from "./config";
+import prisma from "./config/database";
 
 const app = express();
-const PORT = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
 
 // Health check
-app.get("/", (_req, res) => {
-    res.json({
-        message: "Bitespeed Identity Reconciliation Service",
-        status: "running",
-    });
+app.get("/", async (_req, res) => {
+    try {
+        // Verify database connection
+        await prisma.$connect();
+        res.json({
+            message: "Bitespeed Identity Reconciliation Service",
+            status: "running",
+            database: "connected",
+        });
+    } catch (error) {
+        res.status(500).json({
+            message: "Bitespeed Identity Reconciliation Service",
+            status: "running",
+            database: "disconnected",
+        });
+    }
 });
 
 // TODO: Mount /identify route in Phase 3
 
-app.listen(PORT, () => {
-    console.log(`Server is running on port ${PORT}`);
+app.listen(config.port, () => {
+    console.log(`Server is running on port ${config.port}`);
+    console.log(`Environment: ${config.nodeEnv}`);
 });
 
 export default app;
