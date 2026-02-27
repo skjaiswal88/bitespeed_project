@@ -1,11 +1,15 @@
 import express from "express";
 import config from "./config";
 import prisma from "./config/database";
+import identifyRoute from "./routes/identify";
 
 const app = express();
 
 // Middleware
 app.use(express.json());
+
+// Identify route
+app.use("/", identifyRoute);
 
 // Health check
 app.get("/", async (_req, res) => {
