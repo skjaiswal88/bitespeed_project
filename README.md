@@ -1,0 +1,77 @@
+# Bitespeed Backend Task: Identity Reconciliation
+
+A Node.js web service that identifies and keeps track of a customer's identity across multiple purchases by linking their email and phone numbers.
+
+## Features
+- **Reconciliation Engine:** Links customers who share an email or phone number.
+- **Cluster Merging:** Capable of merging two formerly distinct primary customers if a new purchase links them together.
+- **Primary/Secondary Logic:** Retains the oldest contact as the `primary` and treats all other linked contacts as `secondary`.
+
+## Tech Stack
+- **Runtime:** Node.js + TypeScript
+- **Framework:** Express.js
+- **Database:** SQLite (local/dev)
+- **ORM:** Prisma
+
+---
+
+## Running Locally
+
+1. **Install dependencies:**
+   ```bash
+   npm install
+   ```
+
+2. **Setup the Database:**
+   ```bash
+   npx prisma generate
+   npx prisma migrate dev
+   ```
+
+3. **Start the Development Server:**
+   ```bash
+   npm run dev
+   ```
+   The service will start on `http://localhost:3000`.
+
+---
+
+## API Endpoint
+
+### `POST /identify`
+
+**Request Body:**
+```json
+{
+  "email": "mcfly@hillvalley.edu",
+  "phoneNumber": "123456"
+}
+```
+*(At least one of `email` or `phoneNumber` must be provided).*
+
+**Response:**
+```json
+{
+  "contact": {
+    "primaryContatctId": 1,
+    "emails": ["lorraine@hillvalley.edu", "mcfly@hillvalley.edu"],
+    "phoneNumbers": ["123456"],
+    "secondaryContactIds": [23]
+  }
+}
+```
+
+---
+
+## Deployment (Render.com)
+
+The project includes a `render.yaml` configuration for easy deployment on [Render](https://render.com).
+
+1. Connect your GitHub repository to Render.
+2. Render will automatically detect the settings:
+   - **Environment:** Node
+   - **Build Command:** `npm install && npx prisma generate && npm run build`
+   - **Start Command:** `npm start`
+3. Since we're using SQLite for simplicity in this task, a persistent disk is configured in `render.yaml` to retain the SQLite database across deployments.
+
+(Add your hosted endpoint URL here once deployed)
