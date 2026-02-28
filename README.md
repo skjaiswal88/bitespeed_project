@@ -10,7 +10,7 @@ A Node.js web service that identifies and keeps track of a customer's identity a
 ## Tech Stack
 - **Runtime:** Node.js + TypeScript
 - **Framework:** Express.js
-- **Database:** SQLite (local/dev)
+- **Database:** PostgreSQL (Production) / SQLite (Local)
 - **ORM:** Prisma
 
 ---
@@ -65,13 +65,12 @@ A Node.js web service that identifies and keeps track of a customer's identity a
 
 ## Deployment (Render.com)
 
-The project includes a `render.yaml` configuration for easy deployment on [Render](https://render.com).
+The project includes a `render.yaml` configuration and a custom `start.sh` script for easy, robust deployment on [Render](https://render.com).
 
-1. Connect your GitHub repository to Render.
-2. Render will automatically detect the settings:
-   - **Environment:** Node
-   - **Build Command:** `npm install && npx prisma generate && npm run build`
-   - **Start Command:** `npm start`
-3. Since we're using SQLite for simplicity in this task, a persistent disk is configured in `render.yaml` to retain the SQLite database across deployments.
+1. Connect your GitHub repository to Render as a **Web Service**.
+2. Create a Free **PostgreSQL** database on Render.
+3. Add the `DATABASE_URL` environment variable to your Web Service using the Internal Database URL from your new Postgres instance.
+4. Render will automatically detect the settings from `render.yaml` and the `start.sh` will handle Prisma schema synchronization and boot the application.
 
-(Add your hosted endpoint URL here once deployed)
+**Live Hosted Endpoint:**
+`https://bitespeed-identity-api-w3wl.onrender.com`
