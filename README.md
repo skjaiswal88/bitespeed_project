@@ -1,5 +1,8 @@
 # Bitespeed Backend Task: Identity Reconciliation
 
+[![Live Deployment Status](https://img.shields.io/badge/Live_Deployment-Render-success?style=flat-square&logo=render)](https://bitespeed-identity-api-w3wl.onrender.com)
+**Live API Endpoint:** `https://bitespeed-identity-api-w3wl.onrender.com/identify`
+
 A Node.js web service that identifies and keeps track of a customer's identity across multiple purchases by linking their email and phone numbers.
 
 ## Features
@@ -48,6 +51,13 @@ A Node.js web service that identifies and keeps track of a customer's identity a
 }
 ```
 *(At least one of `email` or `phoneNumber` must be provided).*
+
+**Test the Live API via cURL:**
+```bash
+curl -X POST https://bitespeed-identity-api-w3wl.onrender.com/identify \
+-H "Content-Type: application/json" \
+-d '{"email": "mcfly@hillvalley.edu", "phoneNumber": "123456"}'
+```
 
 **Response:**
 ```json
