@@ -1,4 +1,4 @@
-import { PrismaClient } from "../generated/prisma/client";
+import { PrismaClient } from "@prisma/client";
 
 // Singleton pattern to prevent multiple Prisma Client instances
 // during development with hot-reloading (nodemon)
